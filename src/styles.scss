@@ -10,6 +10,7 @@
     letter-spacing: map.get($font-map, "letter-spacing");
     line-height: map.get($font-map, "line-height");
     color: var(--md-sys-color-on-surface-variant);
+    font-family: "Roboto", sans-serif;
 }
 
 
@@ -22,7 +23,7 @@ $typography-map: (
         ),
         "label-large": (
                 "line-height": 20px,
-                "size": 0.875em,
+                "size": 14px,
                 "letter-spacing": 0.1px,
                 "weight": 500
         ),
@@ -36,12 +37,6 @@ $typography-map: (
                 "line-height": 16px,
                 "size": 0.75em,
                 "letter-spacing": 0.5px,
-                "weight": 500
-        ),
-        "title-small": (
-                "line-height": 20px,
-                "size": 0.75em,
-                "letter-spacing": 0.1px,
                 "weight": 500
         ),
 );
@@ -115,11 +110,12 @@ $typography-map: (
 }
 
 html, body{
-    background-color: var(--md-sys-color-background);
     margin: 0;
     h3{
         margin: 0;
     }
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
 }
 .material-symbols-outlined {
     font-variation-settings:
@@ -129,22 +125,22 @@ html, body{
     'opsz' 24
 }
 
-.navigation-drawer{
+.navigation{
     display: grid;
     width: 360px;
+    max-height: 754px;
     height: 100%;
     grid-template-rows: repeat(3, 1fr);
-    
+    padding: 12px;
     &__item{
-
-        &__title{
-            @include _apply-font("title-small")
-        }
         &__content{
-            border-radius: 100px;
-            --_state-layer-display: none;
-            z-index: 0;
             @include _apply-font("label-large");
+            h3{
+                @include _apply-font("label-large");
+            }
+            --_state-layer-display: none;
+            border-radius: 100px;
+            z-index: 0;
             gap: 12px;
             padding-left: 16px;
             padding-right: 24px;
@@ -153,24 +149,24 @@ html, body{
             justify-content: center;
             align-items: center;
             grid-template-columns: min-content 1fr min-content;
+            position: relative;
+            &:hover{
+                --_state-layer-opacity: 0.08;
+                --_state-layer-display: block;
+                background-color: var(--md-sys-color-surface-container);
+                --icon-fill: 1;
+                --quantity-display: block;
+            }
             &::before {
                 display: var(--_state-layer-display);
                 content: "";
-                border-radius: 10px;
+                border-radius: 100px;
                 position: absolute;
                 inset: 0;
                 z-index: -1;
                 transition: 0.5s opacity;
-                transition: 0.5s display;
                 background-color: currentColor;
                 opacity: var(--_state-layer-opacity, 0);
-            }
-            &:hover{
-                --_state-layer-opacity: 0.08;
-                --_state-layer-display: block;
-                --icon-fill: 1;
-                --quantity-display: inline;
-                background-color: var( --md-sys-color-surface-container);
             }
             &__quantity{
                 display: var(--quantity-display);
