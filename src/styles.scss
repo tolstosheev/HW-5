@@ -31,12 +31,7 @@ $typography-map: (
 
 :root {
     color-scheme: light dark;
-    --md-sys-color-primary: light-dark(rgb(54 97 142), rgb(161 202 253));
-    --md-sys-color-surface-tint: light-dark(rgb(54 97 142), rgb(161 202 253));
-    --md-sys-color-on-primary: light-dark(rgb(255 255 255), rgb(0 50 89));
-    --md-sys-color-primary-container: light-dark(rgb(209 228 255), rgb(26 73 117));
-    --md-sys-color-on-primary-container: light-dark(rgb(0 29 54), rgb(209 228 255));
-    
+
     --md-sys-color-secondary: light-dark(rgb(83 95 112), rgb(187 199 219));
     --md-sys-color-on-secondary: light-dark(rgb(255 255 255), rgb(37 49 64));
     --md-sys-color-secondary-container: light-dark(rgb(215 227 248), rgb(59 72 88));
@@ -47,10 +42,7 @@ $typography-map: (
     --md-sys-color-tertiary-container: light-dark(rgb(243 218 255), rgb(82 63 95));
     --md-sys-color-on-tertiary-container: light-dark(rgb(37 20 49), rgb(243 218 255));
     
-    --md-sys-color-error: light-dark(rgb(186 26 26), rgb(255 180 171));
-    --md-sys-color-on-error: light-dark(rgb(255 255 255), rgb(105 0 5));
-    --md-sys-color-error-container: light-dark(rgb(255 218 214), rgb(147 0 10));
-    --md-sys-color-on-error-container: light-dark(rgb(65 0 2), rgb(255 218 214));
+    
     
     --md-sys-color-background: light-dark(rgb(248 249 255), rgb(17 20 24));
     --md-sys-color-on-background: light-dark(rgb(25 28 32), rgb(225 226 232));
@@ -63,8 +55,6 @@ $typography-map: (
     --md-sys-color-outline: light-dark(rgb(115 119 127), rgb(141 145 153));
     --md-sys-color-outline-variant: light-dark(rgb(195 198 207), rgb(67 71 78));
     
-    --md-sys-color-shadow: rgb(0 0 0);
-    --md-sys-color-scrim: rgb(0 0 0);
     
     --md-sys-color-inverse-surface: light-dark(rgb(46 49 53), rgb(225 226 232));
     --md-sys-color-inverse-on-surface: light-dark(rgb(239 240 247), rgb(46 49 53));
@@ -95,9 +85,10 @@ $typography-map: (
     --md-sys-color-surface-container-highest: light-dark(rgb(225 226 232), rgb(50 53 58));
     --icon-fill: 0;
     --quantity-display: none;
+    --_state-layer-display-icon: none;
 }
 $breakpoint-table: 900px;
-$breakpoint-phone: 400px;
+$breakpoint-phone: 412px;
 html, body{
     margin: 0;
     h3{
@@ -114,48 +105,42 @@ html, body{
     'GRAD' 0,
     'opsz' 24
 }
-
-.navigation{
+.container{
     display: grid;
-    width: 336px;
-    max-height: 754px;
-    height: 100%;
-    grid-template-rows: repeat(3, 1fr);
-    padding: 12px;
-    &__line{
-        border: none;
-        border-top: 1px solid var(--md-sys-color-outline-variant);
-        margin: 0;
-        place-self: center;
-        width: 304px;
-        @media(width <= $breakpoint-phone){
-            border: none;
-            border-top: 0;
-            margin: 0;
-            border-left:1px solid;
-        }
+    max-width: 360px;
+    @media(width <= $breakpoint-phone){
+        place-items: center;
     }
-    &__item{
-        &__content{
-            @include _apply-font("label-large");
-            --_state-layer-display: none;
-            border-radius: 100px;
-            z-index: 0;
-            gap: 12px;
-            padding-left: 16px;
-            padding-right: 24px;
-            height: 56px;
+    .burger-menu{
+        @include _apply-font("label-medium");
+        display: none;
+        width: 80px;
+        padding-top: 44px;
+        padding-bottom: 56px;
+        place-items: center;
+        @media(width > $breakpoint-phone) and (width < $breakpoint-table){
             display: grid;
-            justify-content: center;
-            align-items: center;
-            grid-template-columns: min-content 1fr min-content;
+            grid-template-rows: 48px 56px;
+            gap: 4px;
+        }
+        @media(width <= $breakpoint-phone){
+            display: none;
+        }
+        &__menu{
+            display: grid;
+            width: 40px;
+            height: 40px;
+            place-items: center;
             position: relative;
+            z-index: 0;
             &:hover{
                 --_state-layer-opacity: 0.08;
                 --_state-layer-display: block;
+                --_state-layer-display-icon: block;
                 --icon-fill: 1;
                 --quantity-display: inline;
             }
+
             &::before {
                 display: var(--_state-layer-display);
                 content: "";
@@ -167,11 +152,175 @@ html, body{
                 background-color: currentColor;
                 opacity: var(--_state-layer-opacity, 0);
             }
-            &__quantity{
-                display: var(--quantity-display);
+        }
+        &__edit{
+            display: grid;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            justify-content: center;
+            align-items: center;
+            color: var(--md-sys-color-on-tertiary-container);
+            background-color: var(--md-sys-color-tertiary-container);
+            position: relative;
+            z-index: 0;
+            &:hover{
+                --_state-layer-opacity: 0.08;
+                --_state-layer-display: block;
+                --_state-layer-display-icon: block;
+                --icon-fill: 1;
+                --quantity-display: inline;
             }
-            &__title{
+            &::before {
+                display: var(--_state-layer-display);
+                content: "";
+                border-radius: 100px;
+                position: absolute;
+                border-radius: 16px;
+                inset: 0;
+                z-index: -1;
+                transition: 0.5s opacity;
+                background-color: currentColor;
+                opacity: var(--_state-layer-opacity, 0);
+            }
+        }
+    }
+    .navigation{
+        display: grid;
+        max-width: 336px;
+        grid-template-rows: repeat(3, 1fr);
+        padding: 12px;
+        
+        @media(width >= $breakpoint-phone) and (width <= $breakpoint-table){
+            max-width: 80px;
+            padding: 0;
+            gap: 12px;
+        }
+        @media(width <= $breakpoint-phone){
+            grid-template-rows: 1fr;
+            grid-template-columns: repeat(3, min-content);
+            padding: 8px;
+            gap: 8px;
+            justify-content: center;
+        }
+        &__item{
+            display: grid;
+            grid-template-rows: repeat(4, 1fr) min-content;
+
+            @media(width > $breakpoint-phone) and (width < $breakpoint-table){
+                grid-template-rows: 1fr;
+            }
+            @media(width <= $breakpoint-phone){
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr;
+            }
+            &__line{
+                border: none;
+                border-top: 1px solid var(--md-sys-color-outline-variant);
+                margin: 0;
+                place-self: center;
+                width: 304px;
+                @media(width <= $breakpoint-table){
+                    display: none;
+                }
+            }
+
+            &__content{
                 @include _apply-font("label-large");
+                --_state-layer-display: none;
+                border-radius: 100px;
+                z-index: 0;
+                gap: 12px;
+                padding-left: 16px;
+                padding-right: 24px;
+                height: 56px;
+                display: grid;
+                justify-content: center;
+                align-items: center;
+                grid-template-columns: min-content 1fr min-content;
+                position: relative;
+                &:hover{
+                    --_state-layer-opacity: 0.08;
+                    --_state-layer-display: block;
+                    --_state-layer-display-icon: block;
+                    --icon-fill: 1;
+                    --quantity-display: inline;
+                }
+
+                &::before {
+                    display: var(--_state-layer-display);
+                    content: "";
+                    border-radius: 100px;
+                    position: absolute;
+                    inset: 0;
+                    z-index: -1;
+                    transition: 0.5s opacity;
+                    background-color: currentColor;
+                    opacity: var(--_state-layer-opacity, 0);
+                }
+
+                &__quantity{
+                    display: var(--quantity-display);
+                }
+
+                &__title{
+                    @include _apply-font("label-large");
+                }
+                
+                &__icon-container{
+                    display: none;
+                }
+                @media(width <= $breakpoint-phone){
+                    max-width: 50px;
+                    min-width: 126px;
+                    height: 80px;
+                    grid-template-rows: repeat(2, min-content);
+                    grid-template-columns: 1fr;
+                    gap: 4px;
+                }
+                @media(width <= $breakpoint-table){
+                    @include _apply-font("label-medium");
+                    display: none;
+                    padding: 0;
+                    &__title{
+                        @include _apply-font("label-medium");
+                    }
+                    &::before{
+                        content: none;
+                    }
+                    &--main{
+                        display: grid;
+                        place-items: center;
+                    }
+                    &__icon-container{
+                        width: 56px;
+                        height: 32px;
+                        display: grid;
+                        place-items: center;
+                        z-index: 0;
+                        position: relative;
+                        &::before {
+                            display: block;
+                            content: "";
+                            border-radius: 100px;
+                            position: absolute;
+                            inset: 0;
+                            z-index: -1;
+                            transition: 0.5s opacity;
+                            background-color: currentColor;
+                            opacity: var(--_state-layer-opacity, 0);
+                        }
+                    }
+                }
+                @media(width > $breakpoint-phone) and (width < $breakpoint-table){
+                    &::before{
+                        content: none;
+                    }
+                    &--main{
+                        grid-template-rows: min-content min-content;
+                        grid-template-columns: 1fr;
+                    }
+                }
             }
         }
     }
