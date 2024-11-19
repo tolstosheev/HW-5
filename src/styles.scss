@@ -13,6 +13,50 @@
     font-family: "Roboto", sans-serif;
 }
 
+@mixin _apply-color($color-name) {
+    $color-map: map.get($politer-map, $color-name);
+    background-color: map.get( $color-map, "background-color");
+    color: map.get( $color-map, "color");
+}
+
+@mixin _hover-element($border){
+    @if ($border == "icon"){
+        z-index: 0;
+        position: relative;
+            &::before{
+            content: "";
+            border-radius: 100px;
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            transition: 0.5s opacity;
+            background-color: currentColor;
+            opacity: var(--_state-layer-opacity, 0);
+        }
+    }
+    @if ($border != "icon"){
+        z-index: 0;
+        position: relative;
+        &:hover{
+            --_state-layer-opacity: 0.08;
+            --_state-layer-display: block;
+            --_state-layer-display-icon: block;
+            --icon-fill: 1;
+            --quantity-display: inline;
+        }
+        &::before {
+            display: var(--_state-layer-display);
+            content: "";
+            border-radius: #{$border};
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            transition: 0.5s opacity;
+            background-color: currentColor;
+            opacity: var(--_state-layer-opacity, 0);
+        }
+    }
+}
 
 $typography-map: (
         "label-large": (
@@ -29,60 +73,30 @@ $typography-map: (
         ),
 );
 
+$politer-map: (
+    "tertiary": (
+        "background-color": light-dark(rgb(243 218 255), rgb(82 63 95)),
+        "color": light-dark(rgb(37 20 49), rgb(243 218 255)),
+    ),
+    "background":(
+        --md-sys-color-background: light-dark(rgb(248 249 255), rgb(17 20 24)),
+        --md-sys-color-on-background: light-dark(rgb(25 28 32), rgb(225 226 232)),
+    )
+);
 :root {
     color-scheme: light dark;
-
-    --md-sys-color-secondary: light-dark(rgb(83 95 112), rgb(187 199 219));
-    --md-sys-color-on-secondary: light-dark(rgb(255 255 255), rgb(37 49 64));
-    --md-sys-color-secondary-container: light-dark(rgb(215 227 248), rgb(59 72 88));
-    --md-sys-color-on-secondary-container: light-dark(rgb(16 28 43), rgb(215 227 248));
     
-    --md-sys-color-tertiary: light-dark(rgb(107 87 120), rgb(215 190 228));
-    --md-sys-color-on-tertiary: light-dark(rgb(255 255 255), rgb(59 41 72));
+
     --md-sys-color-tertiary-container: light-dark(rgb(243 218 255), rgb(82 63 95));
     --md-sys-color-on-tertiary-container: light-dark(rgb(37 20 49), rgb(243 218 255));
     
-    
-    
     --md-sys-color-background: light-dark(rgb(248 249 255), rgb(17 20 24));
     --md-sys-color-on-background: light-dark(rgb(25 28 32), rgb(225 226 232));
-    --md-sys-color-surface: light-dark(rgb(248 249 255), rgb(17 20 24));
-    --md-sys-color-on-surface: light-dark(rgb(25 28 32), rgb(225 226 232));
     
-    --md-sys-color-surface-variant: light-dark(rgb(223 226 235), rgb(67 71 78));
     --md-sys-color-on-surface-variant: light-dark(rgb(67 71 78), rgb(195 198 207));
     
-    --md-sys-color-outline: light-dark(rgb(115 119 127), rgb(141 145 153));
     --md-sys-color-outline-variant: light-dark(rgb(195 198 207), rgb(67 71 78));
     
-    
-    --md-sys-color-inverse-surface: light-dark(rgb(46 49 53), rgb(225 226 232));
-    --md-sys-color-inverse-on-surface: light-dark(rgb(239 240 247), rgb(46 49 53));
-    --md-sys-color-inverse-primary: light-dark(rgb(161 202 253), rgb(54 97 142));
-    
-    --md-sys-color-primary-fixed: rgb(209 228 255);
-    --md-sys-color-on-primary-fixed: rgb(0 29 54);
-    --md-sys-color-primary-fixed-dim: rgb(161 202 253);
-    --md-sys-color-on-primary-fixed-variant: rgb(26 73 117);
-    
-    --md-sys-color-secondary-fixed: rgb(215 227 248);
-    --md-sys-color-on-secondary-fixed: rgb(16 28 43);
-    --md-sys-color-secondary-fixed-dim: rgb(187 199 219);
-    --md-sys-color-on-secondary-fixed-variant: rgb(59 72 88);
-    
-    --md-sys-color-tertiary-fixed: rgb(243 218 255);
-    --md-sys-color-on-tertiary-fixed: rgb(37 20 49);
-    --md-sys-color-tertiary-fixed-dim: rgb(215 190 228);
-    --md-sys-color-on-tertiary-fixed-variant: rgb(82 63 95);
-    
-    --md-sys-color-surface-dim: light-dark(rgb(216 218 224), rgb(17 20 24));
-    --md-sys-color-surface-bright: light-dark(rgb(248 249 255), rgb(54 57 62));
-    
-    --md-sys-color-surface-container-lowest: light-dark(rgb(255 255 255), rgb(11 14 19));
-    --md-sys-color-surface-container-low: light-dark(rgb(242 243 250), rgb(25 28 32));
-    --md-sys-color-surface-container: light-dark(rgb(236 238 244), rgb(29 32 36));
-    --md-sys-color-surface-container-high: light-dark(rgb(230 232 238), rgb(39 42 47));
-    --md-sys-color-surface-container-highest: light-dark(rgb(225 226 232), rgb(50 53 58));
     --icon-fill: 0;
     --quantity-display: none;
     --_state-layer-display-icon: none;
@@ -94,8 +108,7 @@ html, body{
     h3{
         margin: 0;
     }
-    background-color: var(--md-sys-color-background);
-    color: var(--md-sys-color-on-background);
+    @include _apply-color("background");
 }
 
 .material-symbols-outlined {
@@ -131,27 +144,7 @@ html, body{
             width: 40px;
             height: 40px;
             place-items: center;
-            position: relative;
-            z-index: 0;
-            &:hover{
-                --_state-layer-opacity: 0.08;
-                --_state-layer-display: block;
-                --_state-layer-display-icon: block;
-                --icon-fill: 1;
-                --quantity-display: inline;
-            }
-
-            &::before {
-                display: var(--_state-layer-display);
-                content: "";
-                border-radius: 100px;
-                position: absolute;
-                inset: 0;
-                z-index: -1;
-                transition: 0.5s opacity;
-                background-color: currentColor;
-                opacity: var(--_state-layer-opacity, 0);
-            }
+            @include _hover-element("100px");
         }
         &__edit{
             display: grid;
@@ -160,29 +153,8 @@ html, body{
             border-radius: 16px;
             justify-content: center;
             align-items: center;
-            color: var(--md-sys-color-on-tertiary-container);
-            background-color: var(--md-sys-color-tertiary-container);
-            position: relative;
-            z-index: 0;
-            &:hover{
-                --_state-layer-opacity: 0.08;
-                --_state-layer-display: block;
-                --_state-layer-display-icon: block;
-                --icon-fill: 1;
-                --quantity-display: inline;
-            }
-            &::before {
-                display: var(--_state-layer-display);
-                content: "";
-                border-radius: 100px;
-                position: absolute;
-                border-radius: 16px;
-                inset: 0;
-                z-index: -1;
-                transition: 0.5s opacity;
-                background-color: currentColor;
-                opacity: var(--_state-layer-opacity, 0);
-            }
+            @include _apply-color("tertiary");
+            @include _hover-element("16px");
         }
     }
     .navigation{
@@ -229,8 +201,7 @@ html, body{
                 @include _apply-font("label-large");
                 --_state-layer-display: none;
                 border-radius: 100px;
-                z-index: 0;
-                gap: 12px;
+                gap: 4px;
                 padding-left: 16px;
                 padding-right: 24px;
                 height: 56px;
@@ -238,26 +209,7 @@ html, body{
                 justify-content: center;
                 align-items: center;
                 grid-template-columns: min-content 1fr min-content;
-                position: relative;
-                &:hover{
-                    --_state-layer-opacity: 0.08;
-                    --_state-layer-display: block;
-                    --_state-layer-display-icon: block;
-                    --icon-fill: 1;
-                    --quantity-display: inline;
-                }
-
-                &::before {
-                    display: var(--_state-layer-display);
-                    content: "";
-                    border-radius: 100px;
-                    position: absolute;
-                    inset: 0;
-                    z-index: -1;
-                    transition: 0.5s opacity;
-                    background-color: currentColor;
-                    opacity: var(--_state-layer-opacity, 0);
-                }
+                @include _hover-element("100px");
 
                 &__quantity{
                     display: var(--quantity-display);
@@ -297,25 +249,10 @@ html, body{
                         height: 32px;
                         display: grid;
                         place-items: center;
-                        z-index: 0;
-                        position: relative;
-                        &::before {
-                            display: block;
-                            content: "";
-                            border-radius: 100px;
-                            position: absolute;
-                            inset: 0;
-                            z-index: -1;
-                            transition: 0.5s opacity;
-                            background-color: currentColor;
-                            opacity: var(--_state-layer-opacity, 0);
-                        }
+                        @include _hover-element("icon");
                     }
                 }
                 @media(width > $breakpoint-phone) and (width < $breakpoint-table){
-                    &::before{
-                        content: none;
-                    }
                     &--main{
                         grid-template-rows: min-content min-content;
                         grid-template-columns: 1fr;
