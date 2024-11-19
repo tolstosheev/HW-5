@@ -15,27 +15,15 @@
 
 
 $typography-map: (
-        "label-large-promient": (
-                "line-height": 20px,
-                "size": 0.875em,
-                "letter-spacing": 0.1px,
-                "weight": 600
-        ),
         "label-large": (
                 "line-height": 20px,
                 "size": 14px,
                 "letter-spacing": 0.1px,
                 "weight": 500
         ),
-        "label-medium-promient": (
-                "line-height": 16px,
-                "size": 0.75em,
-                "letter-spacing": 0.5px,
-                "weight": 600
-        ),
         "label-medium": (
                 "line-height": 16px,
-                "size": 0.75em,
+                "size": 12px,
                 "letter-spacing": 0.5px,
                 "weight": 500
         ),
@@ -108,7 +96,8 @@ $typography-map: (
     --icon-fill: 0;
     --quantity-display: none;
 }
-
+$breakpoint-table: 900px;
+$breakpoint-phone: 400px;
 html, body{
     margin: 0;
     h3{
@@ -117,6 +106,7 @@ html, body{
     background-color: var(--md-sys-color-background);
     color: var(--md-sys-color-on-background);
 }
+
 .material-symbols-outlined {
     font-variation-settings:
     'FILL' var(--icon-fill),
@@ -127,17 +117,27 @@ html, body{
 
 .navigation{
     display: grid;
-    width: 360px;
+    width: 336px;
     max-height: 754px;
     height: 100%;
     grid-template-rows: repeat(3, 1fr);
     padding: 12px;
+    &__line{
+        border: none;
+        border-top: 1px solid var(--md-sys-color-outline-variant);
+        margin: 0;
+        place-self: center;
+        width: 304px;
+        @media(width <= $breakpoint-phone){
+            border: none;
+            border-top: 0;
+            margin: 0;
+            border-left:1px solid;
+        }
+    }
     &__item{
         &__content{
             @include _apply-font("label-large");
-            h3{
-                @include _apply-font("label-large");
-            }
             --_state-layer-display: none;
             border-radius: 100px;
             z-index: 0;
@@ -153,9 +153,8 @@ html, body{
             &:hover{
                 --_state-layer-opacity: 0.08;
                 --_state-layer-display: block;
-                background-color: var(--md-sys-color-surface-container);
                 --icon-fill: 1;
-                --quantity-display: block;
+                --quantity-display: inline;
             }
             &::before {
                 display: var(--_state-layer-display);
@@ -170,6 +169,9 @@ html, body{
             }
             &__quantity{
                 display: var(--quantity-display);
+            }
+            &__title{
+                @include _apply-font("label-large");
             }
         }
     }
