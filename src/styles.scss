@@ -23,6 +23,7 @@
     @if ($border == "icon"){
         z-index: 0;
         position: relative;
+
             &::before{
             content: "";
             border-radius: 100px;
@@ -37,6 +38,7 @@
     @if ($border != "icon"){
         z-index: 0;
         position: relative;
+
         &:hover{
             --_state-layer-opacity: 0.08;
             --_state-layer-display: block;
@@ -44,6 +46,7 @@
             --icon-fill: 1;
             --quantity-display: inline;
         }
+
         &::before {
             display: var(--_state-layer-display);
             content: "";
@@ -65,6 +68,7 @@ $typography-map: (
                 "letter-spacing": 0.1px,
                 "weight": 500
         ),
+
         "label-medium": (
                 "line-height": 16px,
                 "size": 12px,
@@ -78,6 +82,7 @@ $politer-map: (
         "background-color": light-dark(rgb(243 218 255), rgb(82 63 95)),
         "color": light-dark(rgb(37 20 49), rgb(243 218 255)),
     ),
+
     "background":(
         --md-sys-color-background: light-dark(rgb(248 249 255), rgb(17 20 24)),
         --md-sys-color-on-background: light-dark(rgb(25 28 32), rgb(225 226 232)),
@@ -93,13 +98,16 @@ $politer-map: (
     
     --quantity-display: none;
 }
+
 $breakpoint-table: 900px;
 $breakpoint-phone: 412px;
+
 html, body{
+    @include _apply-color("background");
+
     h3{
         margin: 0;
     }
-    @include _apply-color("background");
 }
 
 .material-symbols-outlined {
@@ -112,10 +120,12 @@ html, body{
 .container{
     display: grid;
     max-width: 360px;
+
     @media(width <= $breakpoint-phone){
         place-items: center;
         margin: auto;
     }
+
     .burger-menu{
         @include _apply-font("label-medium");
         display: none;
@@ -123,14 +133,17 @@ html, body{
         padding-top: 44px;
         padding-bottom: 56px;
         place-items: center;
+
         @media(width > $breakpoint-phone) and (width < $breakpoint-table){
             display: grid;
             grid-template-rows: 48px 56px;
             gap: 4px;
         }
+
         @media(width <= $breakpoint-phone){
             display: none;
         }
+
         &__menu{
             display: grid;
             width: 40px;
@@ -138,6 +151,7 @@ html, body{
             place-items: center;
             @include _hover-element("100px");
         }
+
         &__edit{
             display: grid;
             width: 56px;
@@ -160,6 +174,7 @@ html, body{
             padding: 0;
             gap: 12px;
         }
+
         @media(width <= $breakpoint-phone){
             grid-template-rows: 1fr;
             grid-template-columns: repeat(3, min-content);
@@ -167,6 +182,7 @@ html, body{
             gap: 8px;
             justify-content: center;
         }
+
         &__item{
             display: grid;
             grid-template-rows: repeat(4, 1fr) min-content;
@@ -174,16 +190,19 @@ html, body{
             @media(width > $breakpoint-phone) and (width < $breakpoint-table){
                 grid-template-rows: 1fr;
             }
+
             @media(width <= $breakpoint-phone){
                 grid-template-columns: 1fr;
                 grid-template-rows: 1fr;
             }
+
             &__line{
                 border: none;
                 border-top: 1px solid var(--md-sys-color-outline-variant);
                 margin: 0;
                 place-self: center;
                 width: 304px;
+
                 @media(width <= $breakpoint-table){
                     display: none;
                 }
@@ -213,6 +232,7 @@ html, body{
                 &__icon-container{
                     display: none;
                 }
+
                 @media(width <= $breakpoint-phone){
                     max-width: 50px;
                     min-width: 126px;
@@ -221,20 +241,25 @@ html, body{
                     grid-template-columns: 1fr;
                     gap: 4px;
                 }
+
                 @media(width <= $breakpoint-table){
                     @include _apply-font("label-medium");
                     display: none;
                     padding: 0;
+
                     &__title{
                         @include _apply-font("label-medium");
                     }
+
                     &::before{
                         content: none;
                     }
+
                     &--main{
                         display: grid;
                         place-items: center;
                     }
+
                     &__icon-container{
                         width: 56px;
                         height: 32px;
@@ -243,6 +268,7 @@ html, body{
                         @include _hover-element("icon");
                     }
                 }
+                
                 @media(width > $breakpoint-phone) and (width < $breakpoint-table){
                     &--main{
                         grid-template-rows: min-content min-content;
